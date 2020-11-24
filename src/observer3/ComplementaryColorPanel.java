@@ -1,9 +1,6 @@
 package observer3;
 
-//import javax.swing.*;
 import java.awt.*;
-//import javax.swing.event.ChangeEvent;
-//import javax.swing.event.ChangeListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 

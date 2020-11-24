@@ -13,8 +13,6 @@ public class OriginalColorPanel extends ColorPanel {
 
     @Override
     public void stateChanged(ChangeEvent e) {
-        // TODO Auto-generated method stub
-
         if (hue != null && saturation != null && brightness != null) {
             float newSaturation = (float) saturation.getValue() / 100;
             float newHue = (float) hue.getValue() / 100;

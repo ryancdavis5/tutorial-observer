@@ -23,11 +23,9 @@ public class DisplayColors {
     protected JPanel colorsPanel() {
         JPanel p = new JPanel();
         p.setLayout(new GridLayout(1, 2));
-
         originalColorPanel = new OriginalColorPanel(Color.getHSBColor(0, (float) .5, (float) .5), saturationSlider, hueSlider, brightnessSlider);
         originalColorPanel.setPreferredSize(new Dimension(300, 200));
         p.add(SwingFacade.createTitledPanel("Original Color", originalColorPanel));
-
         complementaryColorPanel = new ComplementaryColorPanel(Color.getHSBColor((float) .5, (float) .5, (float) .5), saturationSlider, hueSlider, brightnessSlider);
         complementaryColorPanel.setPreferredSize(new Dimension(300, 200));
         p.add(SwingFacade.createTitledPanel("Complementary Color", complementaryColorPanel));
@@ -57,9 +55,6 @@ public class DisplayColors {
 
     private JSlider slider() {
         JSlider slider = new JSlider();
-        // WHAT GOES HERE?
-        // You need to make it possible for the app to get the slider values out.
-        // slider.addChangeListener(this);
         slider.setValue(slider.getMinimum());
         return slider;
     }
