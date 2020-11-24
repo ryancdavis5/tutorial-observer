@@ -1,11 +1,9 @@
-package observer1;
+package observer2;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 
-public class DisplayColors implements ChangeListener {
+public class DisplayColors {
 
     public static void main(String[] args) {
         SwingFacade.launch(new DisplayColors().mainPanel(), "Compute Complementary Colors");
@@ -22,16 +20,17 @@ public class DisplayColors implements ChangeListener {
     protected JLabel saturationValueLabel;
     protected JLabel brightnessValueLabel;
 
-
-
     protected JPanel colorsPanel() {
         JPanel p = new JPanel();
         p.setLayout(new GridLayout(1, 2));
-        originalColorPanel = createColorPanel(Color.getHSBColor(0, (float) .5, (float) .5));
-        p.add(SwingFacade.createTitledPanel("Original Color", originalColorPanel));
-        complementaryColorPanel = createColorPanel(Color.getHSBColor((float) .5, (float) .5, (float) .5));
-        p.add(SwingFacade.createTitledPanel("Complementary Color", complementaryColorPanel));
 
+        originalColorPanel = new OriginalColorPanel(Color.getHSBColor(0, (float) .5, (float) .5), saturationSlider, hueSlider, brightnessSlider);
+        originalColorPanel.setPreferredSize(new Dimension(300, 200));
+        p.add(SwingFacade.createTitledPanel("Original Color", originalColorPanel));
+
+        complementaryColorPanel = new ComplementaryColorPanel(Color.getHSBColor((float) .5, (float) .5, (float) .5), saturationSlider, hueSlider, brightnessSlider);
+        complementaryColorPanel.setPreferredSize(new Dimension(300, 200));
+        p.add(SwingFacade.createTitledPanel("Complementary Color", complementaryColorPanel));
 
         return p;
     }
@@ -39,7 +38,6 @@ public class DisplayColors implements ChangeListener {
     protected JPanel mainPanel() {
         JPanel p = new JPanel();
         p.setLayout(new GridLayout(2, 1));
-        JPanel colorsPanel = colorsPanel();
         JPanel subP = new JPanel();
         subP.setLayout(new GridLayout(3, 1));
         hueSlider = slider();
@@ -51,18 +49,17 @@ public class DisplayColors implements ChangeListener {
         brightnessSlider.setValue(50);
         subP.add(sliderBox("B", brightnessSlider, brightnessValueLabel));
         p.add(subP);
+        JPanel colorsPanel = colorsPanel();
         p.add(colorsPanel);
         return p;
+
     }
 
     private JSlider slider() {
         JSlider slider = new JSlider();
         // WHAT GOES HERE?
         // You need to make it possible for the app to get the slider values out.
-
-        slider.addChangeListener(this::stateChanged);
-
-
+        // slider.addChangeListener(this);
         slider.setValue(slider.getMinimum());
         return slider;
     }
@@ -86,29 +83,4 @@ public class DisplayColors implements ChangeListener {
         return b;
     }
 
-    protected ColorPanel createColorPanel(Color initialColor) {
-        ColorPanel colorPanel = new ColorPanel(initialColor);
-        colorPanel.setPreferredSize(new Dimension(300, 200));
-        return colorPanel;
-    }
-
-
-    public void stateChanged(ChangeEvent e) {
-        if (hueSlider != null && saturationSlider != null && brightnessSlider != null) {
-            float newHue = (float) hueSlider.getValue() / 100;
-            float newSaturation = (float) saturationSlider.getValue() / 100;
-            float newBrightness = (float) brightnessSlider.getValue() / 100;
-            Color newColor = Color.getHSBColor(newHue, newSaturation, newBrightness);
-            float complementaryHue = newHue - (float) 0.5;
-            if (complementaryHue < 0) {
-                complementaryHue = complementaryHue + 1;
-            }
-            Color complementaryColor = Color.getHSBColor(complementaryHue, newSaturation, newBrightness);
-            // WHAT GOES HERE?
-            // You need to update the two color panels with the appropriate colors
-            originalColorPanel.setColor(newColor);
-            complementaryColorPanel.setColor(complementaryColor);
-
-        }
-    }
 }
